@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int     @id @default(autoincrement())
+  firstName  String  @map("first_name") @db.VarChar(50)
+  middleName String? @map("middle_name") @db.VarChar(50)
+  lastName   String  @map("last_name") @db.VarChar(50)
+  email      String  @unique @db.VarChar(100)
+  password   String  @db.VarChar(60)
+  isDeleted  Boolean @default(false) @map("id_deleted")
+
+  notes Note[]
+
+  @@index([email])
+  @@map("users")
+}
+
+model Note {
+  id          Int     @id @default(autoincrement())
+  title       String  @db.VarChar(100)
+  description String  @db.VarChar(300)
+  isActive    Boolean @default(true) @map("is_active")
+  isDeleted   Boolean @default(false) @map("id_deleted")
+
+  User       User?                @relation(fields: [userId], references: [id])
+  userId     Int?
+  categories NoteCategoryDetail[]
+
+  @@map("notes")
+}
+
+model NoteCategoryDetail {
+  note       Note     @relation(fields: [noteId], references: [id])
+  noteId     Int      @map("note_id")
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int      @map("category_id")
+
+  @@id([noteId, categoryId])
+  @@map("note_category_details")
+}
+
+model Category {
+  id        Int                  @id @default(autoincrement())
+  name      String               @db.VarChar(50)
+  notes     NoteCategoryDetail[]
+  isDeleted Boolean              @default(false) @map("id_deleted")
+
+  @@map("categories")
+}
