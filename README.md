@@ -5,7 +5,7 @@
 </p>
 
 
-<h1> <p align="center"> Ensolvers App ( SERVER ) </p></h1> 
+<h1> <p align="center"> Notes App ( SERVER ) </p></h1> 
 <p align="center"> The backend of the Notes App is built with NestJS, leveraging its powerful framework to create a scalable and maintainable application. It follows design patterns and a modular architecture to ensure clean code and easy extension. </p>
   <p align="center"> The backend uses JWT (JSON Web Token) strategy for secure authentication, allowing users to log in and manage their notes securely. It provides robust API endpoints for CRUD operations, notes filtering, and archiving functionality. This well-structured backend infrastructure supports a seamless and secure user experience.
   </p>
